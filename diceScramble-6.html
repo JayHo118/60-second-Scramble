@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<!-- I Jason Ho declare that this is my work and it has not been copied or shared 
+     with anyone else.  
+     Dice Scramble Nov 25, 2018
+     Written by Jason Ho - 000774370 -->
+<html>
+    <head>
+        <title>Dice Scramble</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>		
+        <style type="text/css">
+
+            body{
+                font-family: "Permanent Marker", serif;
+                background: linear-gradient(to bottom, #6600ff 0%, #5f9ea0 100%);
+                margin: auto;
+				margin-bottom: 50px;
+                width: 1200px;
+            }
+			#timer{
+				width: 100px;
+				text-align: center;
+				margin-left: 20%;
+				border-style: none;
+                background: none;
+				font-size: 3em;
+				text-shadow: 3px 3px 3px black;
+				color:red;
+				font-family:"lucida Console";
+				font-weight: bold;
+			}
+			#timerBox{
+                background: linear-gradient(to bottom,gold 0%, silver 100%);
+				width: 55%;
+				color: #339966;
+				text-shadow: 2px 3px 2px black;
+				box-shadow: black 8px 10px 8px;
+				border-radius: 50%;
+				padding-top: 2%;
+				padding-top: 20px;
+				padding-bottom: 20px;
+				margin-left: 20%;
+				margin-bottom: 0;
+				margin-top: 20px;
+			}
+			#timerLabel{
+				margin-left: 35%;
+				margin-top: -8%;
+				font-size: 2em;
+			}	
+            h1{
+                font-size: 2em;
+                font-family: "Permanent Marker", serif;
+                color: black;
+                line-height: 200%;
+                text-shadow: #ccffe6 3px 10px 8px;
+                margin-bottom: 2%;
+				/*color: #339966;
+				text-shadow: 2px 3px 2px black;*/
+            }
+            p{	
+                margin: auto;
+                font-family: "Permanent Marker", serif;
+                font-size: 1.25em;
+                color: black;
+            }
+            #box{
+                font-size: 2em;
+                text-align: center;
+                vertical-align: middle;
+                width: 10%;
+                border: 2px solid black;
+                border-radius: 15%;
+                margin-left: 47%;
+                display: inline;
+                margin-top: -8%;
+            }
+            .dot {
+                height: 10px;
+                width: 10px;
+                background-color: black;
+                border-radius: 50%;
+                display: inline-block;
+            }
+            .dots{
+                text-align: center;
+                vertical-align: middle;
+                width: 95%;
+                border: 2px solid black;
+                box-shadow: Black 10px -3px 8px;
+                border-radius: 15%;
+                background-color: lightYellow;
+                margin: auto;
+            }
+            .mainContainer{
+                margin: auto;
+                width: 100%;
+                height: 820px;
+				padding-bottom: 10%;
+            }
+            .topLeftContainer{
+                width: 49%;
+                float: left;
+                margin-left: -3%;
+				margin-top: -3%;
+            }
+            .topRightContainer{
+                width: 49%;
+                float: right;
+                margin-right: 3%;
+				margin-top: -3%;
+            }
+            .player1Container{
+                width: 40%;
+                float: left;
+                text-align: center;
+
+            }
+            .player2Container{
+                width: 40%;
+                float:right;
+				margin-right: 8%;
+                text-align: center;
+            }
+            .message{
+                height: 1%;
+                width: 99%;
+            }
+            .player1LeftSideScoringContainer{
+                float: left;
+                width: 25%;
+                display: inline;
+            }
+            .player1RightSideScoringContainer{
+                width: 25%;
+                float: right;
+                display: inline;
+            }
+            .player1CenterSideScoringContainer{
+                width: 32%;
+                float: left;
+                margin-left: 10%;
+                display: inline;
+            }
+            .player2RightSideScoringContainer{
+                width: 25%;
+                float: right;
+                display: inline;
+            }
+            .player2LeftSideScoringContainer{
+                width: 25%;
+                float: left;
+                display: inline;
+            }
+            .player2CenterSideScoringContainer{
+                width: 32%;
+                float: left;
+                margin-left: 10%;
+                display: inline;
+            }
+            .score{
+                font-size: 1.5em;
+                text-align: center;
+                vertical-align: middle;
+                width: 40%;
+				margin-left: 5%;
+                border: 2px solid black;
+                border-radius: 15%;
+            }
+            .total{
+                font-size: 1.7em;
+                text-align: center;
+                vertical-align: middle;
+                width: 40%;
+                border: 4px solid black;
+                background-color: lightgreen;
+
+            }
+            #instructions{
+                margin-left: 225px;
+                margin-top: 1px;
+                position: fixed;
+                width: 600px;
+                height: 500px;
+                background: linear-gradient(to bottom,lightYellow 0%, silver 100%);
+                border: 2px solid black;
+				border-radius: 10%;
+                box-shadow: Black 6px 2px 6px;
+                visibility: hidden;
+            }
+            #again{
+                background-color: lightYellow;
+				text-align: center;
+                position: fixed;
+                width: 300px;
+                height: 130px;
+                margin-left: 21%;
+                margin-top: 8%;
+                font-size: 2em;
+                border: 2px solid black;
+                box-shadow: Black 6px 2px 6px;
+                font-family:"Permanent Marker", serif;
+                text-shadow: lightblue 3px 10px 8px;
+                visibility: hidden;
+            }
+            #yes{	
+                margin-left: -2%;
+                font-family: "Permanent Marker", serif;
+                box-shadow: Black 6px 2px 6px;
+                text-align: center;
+                background-color: green;
+                width: 25%;
+            }
+            #no{
+
+                font-family:"Permanent Marker", serif;
+                box-shadow: Black 6px 2px 6px;
+                text-align: center;
+                background-color: red;
+                width: 25%;
+            }
+            #closeme{
+                text-align: center;
+                margin-top: -13%;
+                background-color: red;
+            }
+
+            p{
+                text-align: center;
+            }
+
+            #dice1, #dice2{
+                width: 70%;
+                height: 60%;
+                margin-left: 13%;
+                margin-top: 10%;
+            }
+            .rollButton{
+                font-family: "Permanent Marker", serif;
+                font-size: 1em;
+                border: 3px solid black;
+                border-style: ridge;
+                text-align: center;
+                background-color: #ffff99;
+				border-radius: 20%;
+                color: black;
+                margin: auto;
+                margin-top: 6%;
+                margin-left: 30%;
+                width: 37%;
+				padding: 1%;
+                box-shadow: Black 6px 2px 6px;
+            }
+            .saveButton{
+                font-family: "Permanent Marker", serif;
+                border: 3px solid black;
+                border-style: ridge;
+                text-align: center;
+                background-color: lightYellow;
+                color: black;
+                margin-left: 20%;
+                margin-top: 3%;
+				padding: 1%;
+				border-radius: 20%;
+                width: 45%;
+                box-shadow: Black 6px 2px 6px;
+            }
+            #message{
+                width: 35%;
+                font-size : 1.7em;
+                background-color: #53ff1a;
+                border-style: none;
+				border-radius: 50%;
+                font-family: "Permanent Marker", serif;
+                box-shadow: Black 6px 2px 6px;
+                float: left;
+                margin-left: 3%;
+                visibility: visible;
+				padding-top:5px;
+				padding-bottom: 5px;
+            }
+            #message1{
+                width: 35%;
+                font-size : 1.7em;
+                background-color: red;
+                border-style: none;
+				border-radius: 50%;
+                font-family: "Permanent Marker", serif;
+                box-shadow: Black 6px 2px 6px;
+                margin-left: 50%;
+                margin-right: 10%;
+                margin-top: -3.5%;
+                float:right;
+                visibility: visible;
+				padding-top:5px;
+				padding-bottom: 5px;
+            }
+            #menu{
+                background-color: #ffff99;
+                border-style: none;
+                font-family: "Permanent Marker", serif;
+                font-size: 1em;
+				padding: 7px;
+                float: left;
+                margin-top: 2%;
+				margin-left: -3%;
+				border-radius: 50%;
+                box-shadow: Black 6px 2px 6px;
+            }
+            #title{
+                font-size: 2em;
+                font-family: "Permanent Marker", serif;
+				color: #339966;
+                line-height: 200%;
+                text-shadow: black 2px 3px 2px;
+            }
+            #closeme{
+                font-family: "Permanent Marker", serif;
+                border: 1px solid black;
+                text-align: center;
+                background-color: Yellow;
+                color: black;
+                box-shadow: Black 6px 2px 6px;
+				border-radius: 30%;
+            }
+            #press{
+                border:2px solid black;
+                box-shadow: Black 6px 2px 6px;
+                background-color: #ffff99;
+				border-radius: 30%;
+                width: 120px;
+				padding-left: 2px;
+				padding-right: 2px;
+                text-align: center;
+            }
+            #clickOn{
+                float: left;
+                margin-left: 3%;
+                margin-right: 1%;
+            }
+            #clickOn1{
+                margin-left: 54%;
+                margin-top: -5%;
+            }
+            .scores1{
+                width:49%;
+                float: left;
+                border-right:1px solid white;
+            }
+            .scores2{
+                width:49%;
+                float:right;
+            }
+			.scrambleStyle{
+				border-radius: 50%;
+                background: linear-gradient(to bottom,gold 0%, silver 100%);
+				box-shadow: 2px 3px 2px black;
+				width: 60px;
+				color: #339966;
+				text-shadow: 1px 2px 1px black;
+				padding-left: 13px;
+				padding-right: 13px;
+			}
+        </style>
+        <script>
+            var diceSaved = [0, 0, 0, 0, 0];
+            var currentDice = [0, 0, 0, 0, 0];
+            var player1Score = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "];
+            var player2Score = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "];
+            var diceClicked = [false, false, false, false, false, false, false, false, false, false];
+			var newRound = true;
+			var blackOuts = 0;
+            var player1Top = 0;
+            var player2Top = 0;
+            var bonusAmount = 45;
+            var neededForBonus = 75;
+            var player1Turns = 4;
+            var player2Turns = 4;
+            var tempDraw = -1;
+            var playerNum = 1;
+            var rounds = 0;
+            var player1Total = 0;
+            var player2Total = 0;
+			var nameList = ["One's", "Two's", "Three's", "Four's", "Five's", "Six's", "Seven's", "Mini Run", "Broken Run", "Two Pair", "High Low", "Full House", "High Five", "Evens", "Odds", "3 of A Kind", "4 of a Kind", "Chance"]; 
+            var player1ScoreList = ["ones1", "twos1", "threes1", "fours1", "fives1", "sixes1", "sevens1", "miniRun1", "brokenRun1", "scramble1", "highLow1", "fullHouse1", "highFive1", "evens1", "odds1", "threeOfAKind1", "fourOfAKind1", "chance1"];
+            var player2ScoreList = ["ones2", "twos2", "threes2", "fours2", "fives2", "sixes2", "sevens2", "miniRun2", "brokenRun2", "scramble2", "highLow2", "fullHouse2", "highFive2", "evens2", "odds2", "threeOfAKind2", "fourOfAKind2", "chance2"];
+            var multiplier;
+			var first = true;
+
+			function startTimer(first){
+				if (first){
+					count = 60, timer = setInterval(function() {
+						$("#timer").html(count--);
+						if(count <= -1 && first) {
+							clearInterval(timer);
+							if (rounds + blackOuts < 17){
+								blackOut();
+								startTimer(first);
+							} else {
+								count = -1;
+								first = false;
+								clearInterval(timer);
+							}
+							blackOuts +=1;
+						} else if ((count + 1) % 15 === 0){
+							startScramble();
+						}
+					}, 1000);
+				}
+			}
+			
+			function blackOut(){
+				var numberOfTimes = 1;
+				var last1 = -1;
+				var last2 = -1;
+				var placed = false;
+				var i = Math.floor(Math.random()*16 + 2); 
+				var j = Math.floor(Math.random()*16 + 2); 
+				function f(){
+					if (placed){
+						if (last1 === tempDraw && playerNum === 1){
+							$('#' + player1ScoreList[last1]).css("background-color","white").val(tempDraw);
+						} else if (last2 === tempDraw && playerNum === 2) {
+							$('#' + player1ScoreList[last2]).css("background-color","white").val(tempDraw);
+						}
+						$('#' + player1ScoreList[last1]).css("background-color","white").val(" ");
+						$('#' + player2ScoreList[last2]).css("background-color","white").val(" ");
+					}
+					if (player1Score[i] === " " && player2Score[j] === " " && numberOfTimes < 13) {
+						$('#' + player1ScoreList[i]).css("background-color","red").val("X");
+						$('#' + player2ScoreList[j]).css("background-color","red").val("X");
+						numberOfTimes ++;
+						placed = true;
+						last1 = i;
+						last2 = j;
+					} else {
+						placed = false;
+						last1 = -1;
+						last2 = -1;
+					} 
+					if (numberOfTimes < 13) {
+						setTimeout(f, 150);
+					} else {
+						player1Score[i] = 0;
+						player2Score[j] = 0;
+						i = 2;
+						j = 2;
+					}
+					i = Math.floor(Math.random() * 16 + 2); 
+					j = Math.floor(Math.random() * 16 + 2);  
+				}
+				f();
+			}
+			
+			function startScramble(){
+				var i = Math.floor(Math.random()*7); 
+				var j = Math.floor(Math.random()*7); 
+				$('#nameScramble1').html(nameList[i]).val(i);
+				$('#nameScramble2').html(nameList[j]).val(j);
+			}
+			
+			
+            /**
+             *  Randomly picks a number between 1 and 7 and draws the appropriate dice
+             *  in the correct spot and assigns the specific dice an value of selected and 
+             *
+             * @param {int} diceNumber takes in which dice to draw
+             */
+            function drawDice(diceNumber) {
+                var newVal = Math.floor(Math.random() * 7) + 1;
+                var selected = -1;
+                switch (newVal) {
+                    case 1:
+                        drawOne(diceNumber);
+                        selected = 1;
+                        break;
+                    case 2:
+                        drawTwo(diceNumber);
+                        selected = 2;
+                        break;
+                    case 3:
+                        drawThree(diceNumber);
+                        selected = 3;
+                        break;
+                    case 4:
+                        drawFour(diceNumber);
+                        selected = 4;
+                        break;
+                    case 5:
+                        drawFive(diceNumber);
+                        selected = 5;
+                        break;
+                    case 6:
+                        drawSix(diceNumber);
+                        selected = 6;
+                        break;
+                    case 7:
+                        drawSeven(diceNumber);
+                        selected = 7;
+                        break;
+                }
+                currentDice[(diceNumber - 1) % 5 ] = selected;
+            }
+            /**
+             * Reduces the player's turns, displays it
+             * and rolls any unclicked dice for that player if they still have turns available
+             */
+            function rollDice(playerClick) {
+				if (newRound){
+					startTimer(first);
+					blackOuts === 0;
+					newRound = false;
+				}
+				first = false;
+                if (playerNum === 1 && player1Turns > 0 && playerClick === 1) {
+                    player1Turns -= 1;
+					$('#message').val("Turns left: "+ player1Turns);
+                    for (var i = 0; i < 5; i++) {
+                        if (diceSaved[i] === 0)
+                        {
+                            drawDice(i + 1);
+                        }
+                    }
+                } else if (playerNum === 2 && player2Turns > 0 && playerClick === 2) {
+                    player2Turns -= 1;
+					$('#message1').val("Turns left: " + player2Turns);
+                    for (var i = 0; i < 5; i++) {
+                        if (diceSaved[i] === 0)
+                        {
+                            drawDice(i + 6);
+                        }
+                    }
+                }
+            }
+            /**
+             * Used to reset the dice value and display 5's
+             * Draws 9 dots but only displays the 5 for a 5
+             */
+            function clearDice() {
+                for (var diceNumber = 1; diceNumber < 11; diceNumber++) {
+                    var one = "one" + diceNumber;
+                    var node = document.getElementById(one);
+                    node.style.visibility = "visible";
+                    var two = "two" + diceNumber;
+                    var node2 = document.getElementById(two);
+                    node2.style.visibility = "hidden";
+                    var three = "three" + diceNumber;
+                    var node3 = document.getElementById(three);
+                    node3.style.visibility = "visible";
+                    var four = "four" + diceNumber;
+                    var node4 = document.getElementById(four);
+                    node4.style.visibility = "hidden";
+                    var five = "five" + diceNumber;
+                    var node5 = document.getElementById(five);
+                    node5.style.visibility = "visible";
+                    var six = "six" + diceNumber;
+                    var node6 = document.getElementById(six);
+                    node6.style.visibility = "hidden";
+                    var seven = "seven" + diceNumber;
+                    var node7 = document.getElementById(seven);
+                    node7.style.visibility = "visible";
+                    var eight = "eight" + diceNumber;
+                    var node8 = document.getElementById(eight);
+                    node8.style.visibility = "hidden";
+                    var nine = "nine" + diceNumber;
+                    var node9 = document.getElementById(nine);
+                    node9.style.visibility = "visible";
+                }
+            }
+            /**
+             * This function will draw at the specified dice's location
+             * @param {int} diceNumber Takes in the diceNumber to draw at
+             */
+            function drawOne(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "hidden";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "hidden";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "hidden";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "visible";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "hidden";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "hidden";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "hidden";
+            }
+            /**
+             * Draws a 2 at the specified dice location
+             * @param {int} diceNumber
+             */
+            function drawTwo(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "visible";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "hidden";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "hidden";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "hidden";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "hidden";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "hidden";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "visible";
+            }
+
+            /**
+             * Draws a 3 at the specified dice location
+             * @param {int} diceNumber
+             */
+            function drawThree(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "visible";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "hidden";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "hidden";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "visible";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "hidden";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "hidden";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "visible";
+            }
+
+            /**
+             * Draws a 4 at the specified dice location
+             * @param {int} diceNumber
+             */
+            function drawFour(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "visible";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "visible";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "hidden";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "hidden";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "hidden";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "visible";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "visible";
+            }
+            /**
+             * Draws a 5 at the specified dice location
+             * @param {int} diceNumber
+             */
+            function drawFive(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "visible";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "visible";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "hidden";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "visible";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "hidden";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "visible";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "visible";
+            }
+            /**
+             * Draws a 6 at the specified dice location
+             * @param {int} diceNumber
+             */
+            function drawSix(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "visible";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "visible";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "visible";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "hidden";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "visible";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "visible";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "visible";
+            }
+            /**
+             * Draws a 7 at the specified dice location
+             * @param {int} diceNumber
+             */
+            function drawSeven(diceNumber) {
+                var one = "one" + diceNumber;
+                var node = document.getElementById(one);
+                node.style.visibility = "visible";
+                var two = "two" + diceNumber;
+                var node2 = document.getElementById(two);
+                node2.style.visibility = "hidden";
+                var three = "three" + diceNumber;
+                var node3 = document.getElementById(three);
+                node3.style.visibility = "visible";
+                var four = "four" + diceNumber;
+                var node4 = document.getElementById(four);
+                node4.style.visibility = "visible";
+                var five = "five" + diceNumber;
+                var node5 = document.getElementById(five);
+                node5.style.visibility = "visible";
+                var six = "six" + diceNumber;
+                var node6 = document.getElementById(six);
+                node6.style.visibility = "visible";
+                var seven = "seven" + diceNumber;
+                var node7 = document.getElementById(seven);
+                node7.style.visibility = "visible";
+                var eight = "eight" + diceNumber;
+                var node8 = document.getElementById(eight);
+                node8.style.visibility = "hidden";
+                var nine = "nine" + diceNumber;
+                var node9 = document.getElementById(nine);
+                node9.style.visibility = "visible";
+            }
+            /**
+             * When a dice is clicked it stores the value and changes the dice color to green
+             * If the dice is already clicked, then the fuction returns the dice to yellow and 
+             * allows it to be clicked again.
+             * @param {int} diceNumber takes in which dice number has been choosen
+             */
+            function hold(diceNumber) {
+                if (playerNum === 1 && player1Turns < 4)
+                {
+                    switch (diceNumber) {
+                        case 1:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player1Dice1").style.backgroundColor = "lightGreen";
+                                diceSaved[0] = currentDice[0];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player1Dice1").style.backgroundColor = "lightYellow";
+                                diceSaved[0] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 2:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player1Dice2").style.backgroundColor = "lightGreen";
+                                diceSaved[1] = currentDice[1];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player1Dice2").style.backgroundColor = "lightYellow";
+                                diceSaved[1] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 3:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player1Dice3").style.backgroundColor = "lightGreen";
+                                diceSaved[2] = currentDice[2];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player1Dice3").style.backgroundColor = "lightYellow";
+                                diceSaved[2] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 4:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player1Dice4").style.backgroundColor = "lightGreen";
+                                diceSaved[3] = currentDice[3];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player1Dice4").style.backgroundColor = "lightYellow";
+                                diceSaved[3] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 5:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player1Dice5").style.backgroundColor = "lightGreen";
+                                diceSaved[4] = currentDice[4];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player1Dice5").style.backgroundColor = "lightYellow";
+                                diceSaved[4] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                    }
+                } else if (playerNum === 2 && player2Turns < 4) {
+                    switch (diceNumber) {
+                        case 6:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player2Dice1").style.backgroundColor = "lightGreen";
+                                diceSaved[0] = currentDice[0];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player2Dice1").style.backgroundColor = "lightYellow";
+                                diceSaved[0] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 7:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player2Dice2").style.backgroundColor = "lightGreen";
+                                diceSaved[1] = currentDice[1];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player2Dice2").style.backgroundColor = "lightYellow";
+                                diceSaved[1] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 8:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player2Dice3").style.backgroundColor = "lightGreen";
+                                diceSaved[2] = currentDice[2];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player2Dice3").style.backgroundColor = "lightYellow";
+                                diceSaved[2] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 9:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player2Dice4").style.backgroundColor = "lightGreen";
+                                diceSaved[3] = currentDice[3];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player2Dice4").style.backgroundColor = "lightYellow";
+                                diceSaved[3] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                        case 10:
+                            if (diceClicked[diceNumber - 1] === false) {
+                                document.getElementById("player2Dice5").style.backgroundColor = "lightGreen";
+                                diceSaved[4] = currentDice[4];
+                                diceClicked[diceNumber - 1] = true;
+                            } else {
+                                document.getElementById("player2Dice5").style.backgroundColor = "lightYellow";
+                                diceSaved[4] = 0;
+                                diceClicked[diceNumber - 1] = false;
+                            }
+                            break;
+                    }
+                }
+            }
+            /**
+             * Resets the box scores and the player totals for both players
+             * Resets the player message boxes and clears all the dice
+             */
+            function clearScores() {
+                for (var i = 2; i < 18; i++) {
+					$('#' + player1ScoreList[i]).css("background-color","white");
+                    $('#' + player1ScoreList[i]).val(" ");
+                    $('#' + player2ScoreList[i]).val(" ");
+					$('#' + player2ScoreList[i]).css("background-color","white");
+                    player1Score[i] = " ";
+                    player2Score[i] = " ";
+                }
+				$('#bonus1').val(" ");
+				$('#bonus2').val(" ");
+                player1Total = 0;
+                player2Total = 0;
+                rounds = 0;
+                clearDice();
+                document.getElementById("total1").value = " ";
+                document.getElementById("total2").value = " ";
+                document.getElementById("again").style.visibility = "hidden";
+                document.getElementById("message").value = "It's your turn player 1";
+                document.getElementById("message").style.backgroundColor = "#53ff1a";
+                document.getElementById("message1").style.backgroundColor = "Red";
+                document.getElementById("message1").value = "Waiting to Start";
+            }
+            /**
+             * Clears the last box selected that hasn't been confirmed
+             * ie if fours were clicked but then chance was clicked the 4 box would be deleted
+             * @param {int} playerNum takes in the current player
+             */
+            function clearLast(playerNum) {
+                if (tempDraw !== -1) {
+                    if (playerNum === 1) {
+                        document.getElementById(player1ScoreList[tempDraw]).value = " ";
+                    } else if (playerNum === 2) {
+                        document.getElementById(player2ScoreList[tempDraw]).value = " ";
+                    }
+                }
+            }
+            /**
+             * Saves the score of the specific player after they have clicked save score
+             * Updates their score their score categories then resets the board and changes 
+             * the player to the opposite one. Displays a message for each player as well
+             */
+            function saveScore(playerClicked) {
+                var total = 0;
+				i = 2;
+				if (playerClicked === playerNum) {
+                for (i = 2; i < 18; i++) {
+                    if (playerNum === 1) {
+                        player1Score[tempDraw] = document.getElementById(player1ScoreList[tempDraw]).value;
+                        if (document.getElementById(player1ScoreList[i]).value !== " ")
+                        {
+							if ($('#' + player1ScoreList[i]).val() !== "X") {
+								total += parseInt(document.getElementById(player1ScoreList[i]).value);
+								if (i < 7) {
+									player1Top = total;
+									if (parseInt(document.getElementById(player1ScoreList[i]).value) > 74) {
+										player1Top -= 75;
+									}
+								}
+							}
+                        }
+                        player1Turns = 4;
+						$('#message').val(player1Turns);
+                        document.getElementById("message1").value = "It's your turn player 2";
+                        document.getElementById("message1").style.backgroundColor = "#53ff1a";
+                        document.getElementById("message").style.backgroundColor = "Red";
+                        document.getElementById("message").value = "Waiting for Player 2";
+
+                    } else if (playerNum === 2) {
+                        player2Score[tempDraw] = document.getElementById(player2ScoreList[tempDraw]).value;
+                        if (document.getElementById(player2ScoreList[i]).value !== " ")
+                        {
+							if ($('#' + player2ScoreList[i]).val() !== "X") {
+								total += parseInt(document.getElementById(player2ScoreList[i]).value);
+								if (i < 7) {
+									player2Top = total;
+									if (parseInt(document.getElementById(player2ScoreList[i]).value) > 74) {
+										player2Top -= 75;
+									}
+								}
+                            }
+                        }
+                        player2Turns = 4;
+						$('#message1').val(player2Turns);
+                        document.getElementById("message").value = "It's your turn player 1";
+                        document.getElementById("message").style.backgroundColor = "#53ff1a";
+                        document.getElementById("message1").style.backgroundColor = "Red";
+                        document.getElementById("message1").value = "Waiting for Player 1";
+                    }
+                }
+                tempDraw = -1;
+                diceSaved = [0, 0, 0, 0, 0];
+                currentDice = [0, 0, 0, 0, 0];
+                diceClicked = [false, false, false, false, false, false, false, false, false, false];
+                clearDice();
+                if (playerNum === 1) {
+                    if (player1Top >= neededForBonus) {
+                        document.getElementById("bonus1").value = 45;
+                        total += bonusAmount;
+                    }
+                    playerNum += 1;
+                    document.getElementById("total1").value = total;
+                    document.getElementById("player1Dice1").style.backgroundColor = "lightYellow";
+                    document.getElementById("player1Dice2").style.backgroundColor = "lightYellow";
+                    document.getElementById("player1Dice3").style.backgroundColor = "lightYellow";
+                    document.getElementById("player1Dice4").style.backgroundColor = "lightYellow";
+                    document.getElementById("player1Dice5").style.backgroundColor = "lightYellow";
+                    player1Total = total;
+                } else if (playerNum === 2) {
+                    if (player2Top >= neededForBonus) {
+                        document.getElementById("bonus2").value = 45;
+                        total += bonusAmount;
+                    }
+                    playerNum = 1;
+                    document.getElementById("total2").value = total;
+                    document.getElementById("player2Dice1").style.backgroundColor = "lightYellow";
+                    document.getElementById("player2Dice2").style.backgroundColor = "lightYellow";
+                    document.getElementById("player2Dice3").style.backgroundColor = "lightYellow";
+                    document.getElementById("player2Dice4").style.backgroundColor = "lightYellow";
+                    document.getElementById("player2Dice5").style.backgroundColor = "lightYellow";
+                    rounds += 1;
+                    player2Total = total;
+                }
+                if (rounds + blackOuts >= 17) {
+                    showWinner();
+					newRound = true;
+					clearInterval(timer);
+                }
+			}
+            }
+            /**
+             * Displays a message for the winner and the loser
+             * Changes the color of their specific message box
+             */
+            function showWinner() {
+                if (player1Total > player2Total) {
+                    document.getElementById("message").value = "Congratulations Player 1";
+                    document.getElementById("message").style.backgroundColor = "#53ff1a";
+                    document.getElementById("message1").style.backgroundColor = "Red";
+                    document.getElementById("message1").value = "Better Luck Next Time";
+                } else if (player2Total > player1Total) {
+                    document.getElementById("message1").value = "Congratulations Player 2";
+                    document.getElementById("message1").style.backgroundColor = "#53ff1a";
+                    document.getElementById("message").style.backgroundColor = "Red";
+                    document.getElementById("message").value = "Better Luck Next Time";
+                } else {
+                    document.getElementById("message").value = "It's a tie!";
+                    document.getElementById("message").style.backgroundColor = "purple";
+                    document.getElementById("message1").style.backgroundColor = "purple";
+                    document.getElementById("message1").value = "It's a tie!";
+                }
+                document.getElementById("again").style.visibility = "visible";
+            }
+            /**
+             * Checks if the spot is available if so adds all the ones on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreOnes(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				var index = 0;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(1);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#ones1').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(1);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#ones2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+
+            /**
+             * Checks if the spot is available if so adds all the twos on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreTwos(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				var index = 1;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(2);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#twos2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(2);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#twos2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+            /**
+             * Checks if the spot is available if so adds all the threes on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreThrees(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				var index = 2;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(3);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#threes1').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(3);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#threes2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+            /**
+             * Checks if the spot is available if so adds all the fourss on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreFours(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				var index = 3;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(4);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#fours1').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(4);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#fours2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+            /**
+             * Checks if the spot is available if so adds all the fives on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreFives(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				var index = 4;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(5);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#fives1').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(5);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#fives2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+            /**
+             * Checks if the spot is available if so adds all the sixes on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreSixes(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				var index = 5;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(6);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#sixes1').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(6);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#sixes2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+			
+            /**
+             * Checks if the spot is available if so adds all the sevens on all the dice
+             * if there is none then a 0 is given
+             * @param {int} playerNum the current player  number
+             */
+            function scoreSevens(playerClicked, checkScramble) {
+                 clearLast(playerNum, tempDraw);
+				var index = 6;
+				var total = 0;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        total = getTotal(7);
+						if (checkScramble){
+							$('#scramble1').val(total);
+						} else {
+							$('#sevens1').val(total);
+						}
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[0] === " ") {
+                        total = getTotal(7);
+                        if (checkScramble){
+							$('#scramble2').val(total);
+						} else {
+							$('#sevens2').val(total);
+						}
+                        tempDraw = index;
+                    }
+                }
+            }
+
+			/**
+             * First checks if the spot is empty and then checks the dice 
+             * to see if a player has rolled a miniRun
+             * if a miniRun is found then give the player 15 points if not mark as 0
+             * 
+             * @param {int} playerNum specific player
+             */
+
+            function scoreMiniRun(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                var total = 0;
+                miniRun = [false, false, false, false, false, false, false];
+                if (playerNum === 1 && player1Score[7] === " " && playerClicked === 1) {
+                    for (var i = 0; i < 5; i++) {
+                        miniRun[currentDice[i] - 1] = true;
+                    }
+                    if ((miniRun[3]) && ((miniRun[0] && miniRun[1] && miniRun[2]) || (miniRun[1] && miniRun[2] && miniRun[4]) || (miniRun[2] && miniRun[4] && miniRun[5]) || (miniRun[4] && miniRun[5] && miniRun[6])))
+                    {
+                        document.getElementById("miniRun1").value = 30;
+                    } else {
+                        document.getElementById("miniRun1").value = 0;
+                    }
+                    tempDraw = 7;
+                } else if (playerNum === 2 && player2Score[7] === " " && playerClicked === 2) {
+                    for (var i = 0; i < 5; i++) {
+                        miniRun[currentDice[i] - 1] = true;
+                    }
+                    if ((miniRun[3]) && ((miniRun[0] && miniRun[1] && miniRun[2]) || (miniRun[1] && miniRun[2] && miniRun[4]) || (miniRun[2] && miniRun[4] && miniRun[5]) || (miniRun[4] && miniRun[5] && miniRun[6])))
+                    {
+                        document.getElementById("miniRun2").value = 30;
+                    } else {
+                        document.getElementById("miniRun2").value = 0;
+                    }
+                    tempDraw = 7;
+                }
+            }
+			
+			  /**
+             * First checks if the spot is empty and then checks the dice 
+             * to see if a player has rolled a largeRun
+             * if a largeRun is found then give the player 50 points if not mark as 0
+             * 
+             * @param {int} playerNum specific player
+             */
+
+            function scoreBrokenRun(playerClicked) {
+                clearLast(playerNum, tempDraw);
+				var total = 0;
+                var brokenRun = [false, false, false, false, false, false, false];
+                if (playerNum === 1 && player1Score[8] === " " && playerClicked === 1) {               
+                    for (var i = 0; i < 5; i++) {
+                        brokenRun[currentDice[i] - 1] = true;
+                    }
+                    if ((brokenRun[1] && brokenRun[5]) &&
+                       ((brokenRun[0] && brokenRun[3] && brokenRun[4]) || (brokenRun[0] && brokenRun[2] && brokenRun[4]) || (brokenRun[2]) && (brokenRun[4] && brokenRun[6]) || (brokenRun[2]) && (brokenRun[3] && brokenRun[6])))
+                    {
+                        document.getElementById("brokenRun1").value = 45;
+                    } else {
+                        document.getElementById("brokenRun1").value = 0;
+                    }
+                    tempDraw = 8;
+                } else if (playerNum === 2 && player2Score[8] === " " && playerClicked === 2) {
+      
+                    for (var i = 0; i < 5; i++) {
+                        brokenRun[currentDice[i] - 1] = true;
+                    }
+                    if ((brokenRun[1] && brokenRun[5]) &&
+                       ((brokenRun[0] && brokenRun[3] && brokenRun[4]) || (brokenRun[0] && brokenRun[2] && brokenRun[4]) || (brokenRun[2]) && (brokenRun[4] && brokenRun[6]) || (brokenRun[2]) && (brokenRun[3] && brokenRun[6])))
+                    {
+                        document.getElementById("brokenRun2").value = 45;
+                    } else {
+                        document.getElementById("brokenRun2").value = 0;
+                    }
+                    tempDraw = 8;
+                }
+            }
+
+			function scoreScramble(playerClicked){
+				clearLast(playerNum, tempDraw);
+				if (playerClicked === 1) {
+					nameIndex = $('#nameScramble1').val();
+				} else {
+					nameIndex = $('#nameScramble2').val();
+				}
+				switch (nameIndex){
+					case '0':
+						scoreOnes(playerClicked,true);
+						break;
+					case '1':
+						scoreTwos(playerClicked,true);
+						break;
+					case '2':
+						scoreThrees(playerClicked,true);
+						break;
+					case '3':
+						scoreFours(playerClicked,true);
+						break;
+					case '4':
+						scoreFives(playerClicked,true);
+						break;
+					case '5':
+						scoreSixes(playerClicked,true);
+						break;
+					case '6':
+						scoreSevens(playerClicked,true);
+						break;
+				}	
+			}
+			
+			function scoreHighLow(playerClicked) {
+				clearLast(playerNum, tempDraw);
+				var total = 0;
+				highLow = [false, false, false, false, false, false, false];
+                if (playerNum === 1 && player1Score[10] === " " && playerClicked === 1) {
+                    for (var i = 0; i < 5; i++) {
+                        highLow[currentDice[i] - 1] = true;
+                    }
+					if (highLow[0] && highLow[6]){
+						total = totalDice();
+					} else {
+						total = 0;
+					}
+					$('#highLow1').val(total);
+					tempDraw = 10;
+				} else if (playerNum === 2 && player2Score[10] === " " && playerClicked === 2) {
+                    for (var i = 0; i < 5; i++) {
+                        highLow[currentDice[i] - 1] = true;
+                    }
+					if (highLow[0] && highLow[6]){
+						total = totalDice();
+					} else {
+						total = 0;
+					}
+					$('#highLow2').val(total);
+					tempDraw = 10;
+				}
+			}
+				
+			/** * Check is the space is available and checks to see if the player has rolled and 
+             * saved the dice for a fullHouse. If it has give the player the totaland 
+             * if not give them 0
+             * @param {int} playerNum takes in the current player
+             */
+
+            function scoreFullHouse(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                var hasThreeOfAKind = false;
+                var hasPair = false;
+                var total = 0;
+                var total = hasThreeOfAKind && hasPair;
+                var diceCount = [0, 0, 0, 0, 0, 0, 0];
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[11] === " ") {
+                        for (var i = 0; i < 5; i++) {
+                            diceCount[currentDice[i] - 1] += 1;
+                        }
+                        for (i = 0; i < 8; i++) {
+                            if (diceCount[i] === 3) {
+                                hasThreeOfAKind = true;
+                            } else if (diceCount[i] === 2) {
+                                hasPair = true;
+                            }
+                        }
+                        if (checkHighFive()) {
+                            total += 75;
+                        }
+                        if (hasThreeOfAKind === true && hasPair === true) {
+                            total = 30;
+                        } else if (total !== 75) {
+                            total = 0;
+                        }
+                        document.getElementById("fullHouse1").value = total;
+                        tempDraw = 11;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[11] === " ") {
+                        for (var i = 0; i < 5; i++) {
+                            diceCount[currentDice[i] - 1] += 1;
+                        }
+                        for (i = 0; i < 8; i++) {
+                            if (diceCount[i] === 3) {
+                                hasThreeOfAKind = true;
+                            } else if (diceCount[i] === 2) {
+                                hasPair = true;
+                            }
+                        }
+                        if (checkHighFive()) {
+                            total += 75;
+                        }
+                        if (hasThreeOfAKind === true && hasPair === true) {
+                            total += 30;
+                        } else if (total !== 75) {
+                            total = 0;
+                        }
+                        document.getElementById("fullHouse2").value = total;
+                        tempDraw = 11;
+                    }
+                }
+            }
+
+			 function checkHighFive() {
+                var highFive = false;
+                var diceCount = [0, 0, 0, 0, 0, 0, 0];
+                if ((playerNum === 1 && player1Score[11] === "75") || (playerNum === 2 && player2Score[11] === "75")) {
+                    for (var i = 0; i < 5; i++) {
+                        diceCount[currentDice[i] - 1] += 1;
+                    }
+                    for (i = 0; i < 8; i++) {
+                        if (diceCount[i] === 5) {
+                            highFive = true;
+                        }
+                    }
+                }
+                return highFive;
+            }
+
+              function scoreHighFive(playerClicked, checkScramble) {
+                clearLast(playerNum, tempDraw);
+				index = 12;
+				if (checkScramble){
+					index = 9;
+				}
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[index] === " ") {
+                        var total = 0;
+                        var temp = currentDice[0];
+                        for (var i = 0; i < 5; i++) {
+                            if (temp !== 0 && currentDice[i] !== 0 && temp === currentDice[i]) {
+                                total += 1;
+                            } else {
+                                total = 0;
+                            }
+                        }
+                        if (total === 5) {
+							if (checkScramble) {
+								$('#scramble1').val(60);
+							} else {
+								$('#highFive1').val(60);
+							} 
+						} else {
+							$('#highFive1').val(0);
+                        }
+                        tempDraw = index;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[index] === " ") {
+                        var total = 0;
+                        var temp = currentDice[0];
+                        for (var i = 0; i < 5; i++) {
+                            if (temp !== 0 && currentDice[i] !== 0 && temp === currentDice[i]) {
+                                total += 1;
+                            } else {
+                                total = 0;
+                            }
+                        }
+                         if (total === 5) {
+							if (checkScramble) {
+								$('#scramble2').val(60);
+							} else {
+								$('#highFive2').val(60);
+							} 
+						} else {
+							$('#highFive2').val(0);
+                        }
+                        tempDraw = index;
+                    }
+                } 
+            }
+			
+			/**
+             * Totals up all the even numbers on all the dice
+             * @param {type} playerClicked The specific button that was clicked
+             * @returns {undefined} N/A
+             */
+            function scoreEvens(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                var total = 0;
+                if (playerNum === 1 && player1Score[13] === " " && playerClicked === 1) {
+                    for (var i = 0; i < 5; i++) {
+                        if (currentDice[i] % 2 == 0) {
+                            total += currentDice[i];
+                        }
+                    }
+                    $("#evens1").val(total);
+                    tempDraw = 13;
+                } else if (playerNum === 2 && player2Score[13] === " " && playerClicked === 2) {
+                    for (var i = 0; i < 5; i++) {
+                        if (currentDice[i] % 2 == 0) {
+                            total += currentDice[i];
+                        }
+                    }
+                    $("#evens2").val(total);
+                    tempDraw = 13;
+                }
+            }
+			
+            /**
+             * Totals up all the even numbers on all the dice
+             * @param {type} playerClicked The specific button that was clicked
+             * @returns {undefined} N/A
+             */
+            function scoreOdds(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                var total = 0;
+                if (playerNum === 1 && player1Score[14] === " " && playerClicked === 1) {
+                    for (var i = 0; i < 5; i++) {
+                        if (currentDice[i] % 2 !== 0) {
+                            total += currentDice[i];
+                        }
+                    }
+                    $("#odds1").val(total);
+                    tempDraw = 14;
+                } else if (playerNum === 2 && player2Score[14] === " " && playerClicked === 2) {
+                    for (var i = 0; i < 5; i++) {
+                        if (currentDice[i] % 2 !== 0) {
+                            total += currentDice[i];
+                        }
+                    }
+                    $("#odds2").val(total);
+                    tempDraw = 14;
+                }
+            }
+          
+            function totalDice() {
+                var total = 0;
+                for (var i = 0; i < 5; i++) {
+                    total += currentDice[i];
+                }
+                return total;
+            }
+
+            /** * Check is the space is available and checks to see if the player has rolled and 
+             * saved the dice for a theeOfAKind. If it has give the player the totaland 
+             * if not give them 0
+             * @param {int} playerNum takes in the current player
+             */
+            function scoreTheeOfAKind(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                var total = 0;
+                var diceCount = [0, 0, 0, 0, 0, 0, 0];
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[15] === " ") {
+                        for (var i = 0; i < 5; i++) {
+                            diceCount[currentDice[i] - 1] += 1;
+                        }
+                        for (i = 0; i < 8; i++) {
+                            if (diceCount[i] >= 3) {
+                                total = totalDice();
+                            }
+                        }
+                        if (total > 0) {
+                            if (checkHighFive()) {
+                                total += 75;
+                            }
+                            document.getElementById("threeOfAKind1").value = total;
+                        } else {
+                            document.getElementById("threeOfAKind1").value = 0;
+                        }
+                        tempDraw = 15;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[15] === " ") {
+                        for (var i = 0; i < 5; i++) {
+                            diceCount[currentDice[i] - 1] += 1;
+                        }
+                        for (i = 0; i < 8; i++) {
+                            if (diceCount[i] >= 3) {
+                                total = totalDice();
+                            }
+                        }
+                        if (total > 0) {
+                            if (checkHighFive()) {
+                                total += 75;
+                            }
+                            document.getElementById("threeOfAKind2").value = total;
+                        } else {
+                            document.getElementById("threeOfAKind2").value = 0;
+                        }
+                        tempDraw = 15;
+                    }
+                }
+            }
+            /** * Check is the space is available and checks to see if the player has rolled and 
+             * saved the dice for a fourOfAKind. If it has give the player the total and 
+             * if not give them 0
+             * @param {int} playerNum takes in the current player
+             */
+            function scoreFourOfAKind(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                var total = 0;
+                var diceCount = [0, 0, 0, 0, 0, 0, 0];
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[16] === " ") {
+                        for (var i = 0; i < 5; i++) {
+                            diceCount[currentDice[i] - 1] += 1;
+                        }
+                        for (i = 0; i < 8; i++) {
+                            if (diceCount[i] >= 4) {
+                                total = totalDice();
+                            }
+                        }
+                        if (total > 0) {
+                            if (checkHighFive()) {
+                                total += 75;
+                            }
+                            document.getElementById("fourOfAKind1").value = total;
+                        } else {
+                            document.getElementById("fourOfAKind1").value = 0;
+                        }
+                        tempDraw = 16;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[16] === " ") {
+                        for (var i = 0; i < 5; i++) {
+                            diceCount[currentDice[i] - 1] += 1;
+                        }
+                        for (i = 0; i < 8; i++) {
+                            if (diceCount[i] >= 4) {
+                                total = totalDice();
+                            }
+                        }
+                        if (total > 0) {
+                            if (checkHighFive()) {
+                                total += 75;
+                            }
+                            document.getElementById("fourOfAKind2").value = total;
+                        } else {
+                            document.getElementById("fourOfAKind2").value = 0;
+                        }
+                        tempDraw = 16;
+                    }
+                }
+            }         
+
+            /**
+             * Checks to see if the spot is avaiable and then adds up the total of the dice
+             * @param {int} playerNum takes in the current player number
+             */
+            function scoreChance(playerClicked) {
+                clearLast(playerNum, tempDraw);
+                if (playerNum === 1 && playerClicked === 1) {
+                    if (player1Score[17] === " ") {
+                        var total = 0;
+                        for (var i = 0; i < 5; i++) {
+                            total += currentDice[i];
+                        }
+                        document.getElementById("chance1").value = total;
+                        tempDraw = 17;
+                    }
+                } else if (playerNum === 2 && playerClicked === 2) {
+                    if (player2Score[17] === " ") {
+                        var total = 0;
+                        for (var i = 0; i < 5; i++) {
+                            total += currentDice[i];
+                        }
+                        document.getElementById("chance2").value = total;
+                        tempDraw = 17;
+                    }
+                }
+            }
+
+            /**
+             * Used to check each dice to see if it's the same as the spot
+             * If it is it adds the numbers and returns the total 
+             * @param {int} multiplier
+             * @return returns total  
+             */
+            function getTotal(multiplier) {
+                var total = 0;
+                for (var i = 0; i < 5; i++) {
+                    if (currentDice[i] === multiplier) {
+                        total += multiplier;
+                    }
+                }
+                if (checkHighFive()) {
+                    total += 75;
+                }
+                return total;
+            }
+            /**
+             * Used to hide the instructions
+             */
+            function hideInstructions() {
+                document.getElementById("instructions").style.visibility = "hidden";
+            }
+            /**
+             * Used to show the instructions
+             */
+            function toggleInstructions() {
+                document.getElementById("instructions").style.visibility = "visible";
+            }
+
+        </script>
+    </head>
+
+    <body onload="clearDice()">
+        <div class = "mainContainer">
+
+            <input id="menu" type="button" onclick="toggleInstructions()" value="Instructions">
+			<div id = "timerBox">
+				<div id="timer">60</div>
+				<div id = "timerLabel" >Second SCRAMBLE</div>
+			</div>
+            <!-- 3 dices and the roll dice button left-->
+            <div class ="topLeftContainer" >
+                <table id="dice1" >
+                    <tr>
+                        <td>
+                            <table onclick="hold(1)" class="dots" id="player1Dice1">
+                                <tr>
+                                    <td class = "dot" id = "one1"> </td>
+                                    <td class = "dot" id = "two1"> </td>
+                                    <td class = "dot" id = "three1"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four1"> </td>
+                                    <td class = "dot" id = "five1"> </td>
+                                    <td class = "dot" id = "six1"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven1"> </td>
+                                    <td class = "dot" id = "eight1"> </td>
+                                    <td class = "dot" id = "nine1"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(2)">
+                            <table class = "dots" id="player1Dice2">
+                                <tr>
+                                    <td class = "dot" id = "one2"> </td>
+                                    <td class = "dot" id = "two2"> </td>
+                                    <td class = "dot" id = "three2"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four2"> </td>
+                                    <td class = "dot" id = "five2"> </td>
+                                    <td class = "dot" id = "six2"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven2"> </td>
+                                    <td class = "dot" id = "eight2"> </td>
+                                    <td class = "dot" id = "nine2"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(3)">
+                            <table class = "dots" id="player1Dice3">
+                                <tr>
+                                    <td class = "dot" id = "one3"> </td>
+                                    <td class = "dot" id = "two3"> </td>
+                                    <td class = "dot" id = "three3"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four3"> </td>
+                                    <td class = "dot" id = "five3"> </td>
+                                    <td class = "dot" id = "six3"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven3"> </td>
+                                    <td class = "dot" id = "eight3"> </td>
+                                    <td class = "dot" id = "nine3"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(4)">
+                            <table class = "dots" id="player1Dice4">
+                                <tr>
+                                    <td class = "dot" id = "one4"> </td>
+                                    <td class = "dot" id = "two4"> </td>
+                                    <td class = "dot" id = "three4"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four4"> </td>
+                                    <td class = "dot" id = "five4"> </td>
+                                    <td class = "dot" id = "six4"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven4"> </td>
+                                    <td class = "dot" id = "eight4"> </td>
+                                    <td class = "dot" id = "nine4"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(5)">
+                            <table class = "dots" id="player1Dice5">
+                                <tr>
+                                    <td class = "dot" id = "one5"> </td>
+                                    <td class = "dot" id = "two5"> </td>
+                                    <td class = "dot" id = "three5"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four5"> </td>
+                                    <td class = "dot" id = "five5"> </td>
+                                    <td class = "dot" id = "six5"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven5"> </td>
+                                    <td class = "dot" id = "eight5"> </td>
+                                    <td class = "dot" id = "nine5"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <input class = "rollButton" type="button" onclick="rollDice(1)" value="Roll the Dice">
+                </div>
+                <br>
+
+            </div> <!--topLeftContainer-->
+
+            <!--3 dices and the roll dice button right-->
+
+            <div class ="topRightContainer" >
+                <table id = "dice2">
+                    <tr>
+                        <td onclick="hold(6)" >
+                            <table class="dots" id="player2Dice1">
+                                <tr>
+                                    <td class = "dot" id = "one6"> </td>
+                                    <td class = "dot" id = "two6"> </td>
+                                    <td class = "dot" id = "three6"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four6"> </td>
+                                    <td class = "dot" id = "five6"> </td>
+                                    <td class = "dot" id = "six6"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven6"> </td>
+                                    <td class = "dot" id = "eight6"> </td>
+                                    <td class = "dot" id = "nine6"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(7)">
+                            <table class= "dots" id="player2Dice2">
+                                <tr>
+                                    <td class = "dot" id = "one7"> </td>
+                                    <td class = "dot" id = "two7"> </td>
+                                    <td class = "dot" id = "three7"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four7"> </td>
+                                    <td class = "dot" id = "five7"> </td>
+                                    <td class = "dot" id = "six7"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven7"> </td>
+                                    <td class = "dot" id = "eight7"> </td>
+                                    <td class = "dot" id = "nine7"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(8)">
+                            <table class="dots" id="player2Dice3">
+                                <tr>
+                                    <td class = "dot" id = "one8"> </td>
+                                    <td class = "dot" id = "two8"> </td>
+                                    <td class = "dot" id = "three8"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four8"> </td>
+                                    <td class = "dot" id = "five8"> </td>
+                                    <td class = "dot" id = "six8"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven8"> </td>
+                                    <td class = "dot" id = "eight8"> </td>
+                                    <td class = "dot" id = "nine8"> </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td onclick="hold(9)">
+                            <table class="dots" id="player2Dice4">
+                                <tr>
+                                    <td class = "dot" id = "one9"> </td>
+                                    <td class = "dot" id = "two9"> </td>
+                                    <td class = "dot" id = "three9"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four9"> </td>
+                                    <td class = "dot" id = "five9"> </td>
+                                    <td class = "dot" id = "six9"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven9"> </td>
+                                    <td class = "dot" id = "eight9"> </td>
+                                    <td class = "dot" id = "nine9"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td onclick="hold(10)">
+                            <table class="dots" id="player2Dice5">
+                                <tr>
+                                    <td class = "dot" id = "one10"> </td>
+                                    <td class = "dot" id = "two10"> </td>
+                                    <td class = "dot" id = "three10"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "four10"> </td>
+                                    <td class = "dot" id = "five10"> </td>
+                                    <td class = "dot" id = "six10"> </td>
+                                </tr>
+                                <tr>
+                                    <td class = "dot" id = "seven10"> </td>
+                                    <td class = "dot" id = "eight10"> </td>
+                                    <td class = "dot" id = "nine10"> </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <input class="rollButton" type="button" onclick="rollDice(2)" value="Roll the Dice"/>
+                </div>
+                <br>
+            </div>  <!--top Right Container-->
+
+            <div class ="message"> <!-- messages 2 boxes -->
+                <div>
+                    <input id = "message" type="button" value="It's your turn Player 1"/>
+                </div>
+                <div id="again">
+                    <p>Play Again?</p>
+                    <input id="yes" type="button" value="yes" onclick="clearScores()">
+                    <input id="no" type="button" value="no" onclick="window.open('', '_self', '');
+                            window.close();">
+                </div>
+                <div>
+                    <input id = "message1" type="button" value="Waiting to start"/>
+                </div>
+            </div> 	<!-- messages 2 boxes-->
+
+            <div id="instructions">
+                <p id = "title">Welcome 60 Second Scarmble!</p><br>
+                <p id= "clickOn">Player 1 click on <span id = "press"> Roll the Dice</span> &nbsp;to start the game.</p><br><br>
+                <p>You have 4 rolls per turn to create your best score.</p>
+                <p>Click on the dice you want to hold. </p>
+                <p>Click <span id = "press"> Roll the Dice</span>&nbsp;to spin the remaining dice.</p>
+                <p>When you are satisfied with your Roll, select a box you where want to save your score in and</p>
+                <p>Click on Save Roll button to end your turn. </p>
+				<p> But hurry because in 60 seconds 1 of the categories are going to be scrambled shut</p>
+				<p> To regain the closed category you have to throw a High Five</p>
+				<p>The scramble category changes category every 15 seconds </p>
+                <p>Have fun and enjoy the game !!</p>
+                <input id="closeme" onclick="hideInstructions()" type="button" value ="Close me">
+            </div>
+
+            <div class ="player1Container" >
+                <h1>Player One</h1>
+            </div>
+
+            <div class ="player2Container" >
+                <h1>Player Two</h1>
+            </div>
+            <div class = "scores1">
+                <div class ="player1LeftSideScoringContainer" >
+                    <table>
+                        <tr>
+                            <td>Three's</td>
+                            <td><input onclick = "scoreThrees(1)" class="score" id="threes1" value=" " size = "4" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Four's</td>
+                            <td><input onclick = "scoreFours(1)" type="text" class="score" id="fours1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Five's</td>
+                            <td><input onclick = "scoreFives(1)"  type="text" class="score" id="fives1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Sixes</td>
+                            <td><input onclick = "scoreSixes(1)"  type="text" class="score" id="sixes1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Sevens</td>
+                            <td><input onclick = "scoreSevens(1)"  type="text" class="score" id="sevens1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bonus</td>
+                            <td><input type="text" class="total" id="bonus1" size = "4" value=" " readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class ="player1CenterSideScoringContainer" >
+                    <table>
+                        <tr>
+                            <td>Mini Run</td>
+                            <td><input onclick = "scoreMiniRun(1)" type="text" class="score" id="miniRun1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Broken Run</td>
+                            <td><input onclick = "scoreBrokenRun(1)"  type="text" class="score" id="brokenRun1" size = "4" value=" " readonly></td>
+                        </tr>
+						<tr >
+                            <td class = "scrambleStyle" id="nameScramble1">Scramble</td>
+							<td ><input onclick = "scoreScramble(1)" id="scramble1" class="score" value=" " size = "4" readonly></td>
+                        </tr> 
+                        <tr>
+                            <td>High/Low</td>
+                            <td><input onclick = "scoreHighLow(1)" class="score" id="highLow1" value=" " size = "4" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Full house</td>
+                            <td><input onclick = "scoreFullHouse(1)"  type="text" class="score" id="fullHouse1" size = "4" value=" " readonly></td>
+                        </tr>
+						<tr>
+                            <td>High Five</td>
+                            <td><input onclick = "scoreHighFive(1)" class="score" id="highFive1" size = "4" value=" " readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class ="player1RightSideScoringContainer" >
+                    <table>
+                        
+                       <tr>
+					      <td>Evens</td>
+                            <td><input onclick = "scoreEvens(1)" class="score" id="evens1" size = "4" value=" " readonly></td>
+                        </tr>
+						<tr>
+                            <td>Odds</td>
+                            <td><input onclick = "scoreOdds(1)" class="score" id="odds1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Triple</td>
+                            <td><input onclick = "scoreTheeOfAKind(1)"  type="text" class="score" id="threeOfAKind1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Quartet</td>
+                            <td><input onclick = "scoreFourOfAKind(1)"  type="text" class="score" id="fourOfAKind1" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Chance</td>
+                            <td><input onclick = "scoreChance(1)" class="score" id="chance1" size = "4" value=" " readonly></td>
+                        </tr>
+						<tr>
+                            <td>Total</td>
+                            <td><input type="text" class="total" id="total1" size = "4" value=" " readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <input class = "saveButton" onclick = "saveScore(1)" type="button" value="Save roll">
+                </div>
+            </div><!-- close scores1-->
+            <div class = "scores2">
+                <div class ="player2LeftSideScoringContainer" >
+                    <table>
+                        <tr>
+                            <td>Three's</td>
+                            <td><input onclick = "scoreThrees(2)" class="score" id="threes2" value=" " size = "4" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Four's</td>
+                            <td><input onclick = "scoreFours(2)" type="text" class="score" id="fours2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Five's</td>
+                            <td><input onclick = "scoreFives(2)"  type="text" class="score" id="fives2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Sixes</td>
+                            <td><input onclick = "scoreSixes(2)"  type="text" class="score" id="sixes2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Sevens</td>
+                            <td><input onclick = "scoreSevens(2)"  type="text" class="score" id="sevens2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bonus</td>
+                            <td><input type="text" class="total" id="bonus2" size = "4" value=" " readonly></td>
+                        </tr>
+                    </table>
+                </div> 
+                <div class ="player2CenterSideScoringContainer" >
+                    <table><tr>
+                            <td>Mini Run</td>
+                            <td><input onclick = "scoreMiniRun(2)" class="score" id="miniRun2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Broken Run</td>
+                            <td><input onclick = "scoreBrokenRun(2)"  type="text" class="score" id="brokenRun2" size = "4" value=" " readonly></td>
+                        </tr>
+						<tr>
+                            <td class = "scrambleStyle"id="nameScramble2">Scramble</td>
+							<td><input onclick = "scoreScramble(2)" id="scramble2" class="score"value=" " size = "4" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>High/Low</td>
+                            <td><input onclick = "scoreHighLow(2)" class="score" id="highLow2" value=" " size = "4" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Full house</td>
+                            <td><input onclick = "scoreFullHouse(2)"  type="text" class="score" id="fullHouse2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>High Five</td>
+                            <td><input onclick = "scoreHighFive(2)" class="score" id="highFive2" size = "4" value=" " readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class ="player2RightSideScoringContainer" >
+                    <table>
+                        <tr>
+                            <td>Evens</td>
+                            <td><input onclick = "scoreEvens(2)" class="score" id="evens2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Odds</td>
+                            <td><input onclick = "scoreOdds(2)" class="score" id="odds2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Triple</td>
+                            <td><input onclick = "scoreTheeOfAKind(2)"  type="text" class="score" id="threeOfAKind2" size = "4" value=" " readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Quartet</td>
+                            <td><input onclick = "scoreFourOfAKind(2)"  type="text" class="score" id="fourOfAKind2" size = "4" value=" " readonly></td>
+                        </tr>
+						<tr>
+                            <td>Chance</td>
+                            <td><input onclick = "scoreChance(2)" class="score" id="chance2" size = "4" value=" " readonly></td>
+                        </tr>
+						
+                        <tr>
+                            <td>Total</td>
+                            <td><input type="text" class="total" id="total2" size = "4" value=" " readonly></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <input class = "saveButton" onclick = "saveScore(2)" type="button" value="Save roll">
+                </div>
+			</div>
+        </div>
+    </body>
+</html>
